@@ -12,11 +12,13 @@ services:
     depends_on:
       - php
       - mariadb
+    networks:
+      - docker-private
   php:
     build:
       context: ./
       dockerfile: ./dockerFiles/php8/Dockerfile
-    container_name: php8
+    container_name: php
     volumes:
       - ./code/laravel/portafolio-api:/var/www/html/laravel/portafolio-api
     networks:
@@ -49,7 +51,7 @@ services:
     image: phpmyadmin/phpmyadmin:latest
     container_name: phpmyadmin
     ports:
-      - 8080:8080
+      - 8000:80
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mariadb
