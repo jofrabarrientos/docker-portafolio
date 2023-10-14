@@ -3,9 +3,9 @@ services:
     image: nginx:latest
     container_name: web-nginx
     volumes:
-      - .code/laravel/portafolio-api:/var/www/html/laravel/portafolio-api
-      - .code/vue/portafolio-web:/var/www/html/vue/portafolio-web
-      - .nginx-conf:/etc/nginx/conf.d
+      - ./code/laravel/portafolio-api:/var/www/html/laravel/portafolio-api
+      - ./code/vue/portafolio-web:/var/www/html/vue/portafolio-web
+      - ./nginx-conf:/etc/nginx/conf.d
     ports:
       - 80:80
       - 3000:3000
