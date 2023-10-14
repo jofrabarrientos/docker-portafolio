@@ -1,0 +1,65 @@
+services:
+  web:
+    image: nginx:latest
+    container_name: web-nginx
+    volumes:
+      - .code/laravel/portafolio-api:/var/www/html/laravel/portafolio-api
+      - .code/vue/portafolio-web:/var/www/html/vue/portafolio-web
+      - .nginx-conf:/etc/nginx/conf.d
+    ports:
+      - 80:80
+      - 3000:3000
+    depends_on:
+      - php
+      - mariadb
+  php:
+    build:
+      context: ./
+      dockerfile: ./dockerFiles/php8/Dockerfile
+    container_name: php8
+    volumes:
+      - ./code/laravel/portafolio-api:/var/www/html/laravel/portafolio-api
+    networks:
+      - docker-private
+    depends_on:
+      - mariadb
+  node:
+    build:
+      context: ./
+      dockerfile: ./dockerFiles/node18/Dockerfile
+    container_name: node18
+    ports:
+      - 5173:5173
+    volumes:
+      - ./code/vue:/var/www/html/vue
+    networks:
+      - docker-private
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - docker-private
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - 8080:8080
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
+    networks:
+      - docker-private
+networks:
+  docker-private:
+    name: docker-private
+    driver: brige
+volumes:
+  mariadb-data:
