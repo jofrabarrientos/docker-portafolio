@@ -30,8 +30,6 @@ services:
       context: ./
       dockerfile: ./dockerFiles/node18/Dockerfile
     container_name: node
-    ports:
-      - 5173:5173
     volumes:
       - ./code/vue:/var/www/html/vue
     networks:
