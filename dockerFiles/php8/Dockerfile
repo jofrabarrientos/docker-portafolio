@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -qqy git unzip libfreetype6-dev \
 
 RUN apt-get update \
      && apt-get install -y libzip-dev \
-     && docker-php-ext-install zip mysqli \
+     && docker-php-ext-install zip \
      && docker-php-ext-configure gd --with-freetype --with-jpeg \
      && docker-php-ext-install -j$(nproc) gd \
      && docker-php-ext-install pdo_mysql \
